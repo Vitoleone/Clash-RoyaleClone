@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class Skeleton : MonoBehaviour,IEnemy
 {
     //Castle objects
-    public GameObject castle;
+    GameObject castle;
     Castle castleInstance;
     //Enemy Attributes
     public float health = 50f;
@@ -23,6 +23,7 @@ public class Skeleton : MonoBehaviour,IEnemy
 
     private void Awake()
     {
+        castle = GameObject.Find("Castle");
         castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         instance = this;

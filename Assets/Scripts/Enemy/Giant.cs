@@ -8,7 +8,7 @@ using System.Linq;
 public class Giant : MonoBehaviour,IEnemy
 {
     //Castle objects
-    public GameObject castle;
+    GameObject castle;
     Castle castleInstance;
     //Enemy Attributes
     [SerializeField]float health = 300f;
@@ -20,6 +20,7 @@ public class Giant : MonoBehaviour,IEnemy
 
     private void Awake()
     {
+        castle = GameObject.Find("Castle");
         castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
     }

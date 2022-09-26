@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class Archer : MonoBehaviour,IEnemy
 {
     //Castle objects
-    public GameObject castle;
+    GameObject castle;
     Castle castleInstance;
     //Enemy Attributes
     [SerializeField] float health = 150f;
@@ -21,6 +21,7 @@ public class Archer : MonoBehaviour,IEnemy
 
     private void Awake()
     {
+        castle = GameObject.Find("Castle");
         castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
