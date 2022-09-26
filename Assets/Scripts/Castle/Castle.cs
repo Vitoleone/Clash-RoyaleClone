@@ -23,7 +23,7 @@ public class Castle : MonoBehaviour
         {
             GetDestroyed();
         }
-        CheckRangeAndAttackNearest(transform.position, 6f);
+        CheckRangeAndAttackNearest(transform.position, 7.5f);
 
 
     }

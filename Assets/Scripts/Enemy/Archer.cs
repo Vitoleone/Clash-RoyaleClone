@@ -36,7 +36,7 @@ public class Archer : MonoBehaviour,IEnemy
         {
             Destroy(gameObject);
         }
-        CheckRange(transform.position, 3.5f);
+        CheckRange(transform.position, 5f);
         if (navMeshAgent.velocity == Vector3.zero)
         {
             InvokeRepeating("Attack", attackRate, attackRate);
