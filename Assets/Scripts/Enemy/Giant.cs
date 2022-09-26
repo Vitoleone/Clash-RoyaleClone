@@ -16,8 +16,6 @@ public class Giant : MonoBehaviour,IEnemy
     float speed = 3.5f;
     float attackRate = 2f;
     //Other components
-    Tweener moveTween;
-    Tweener rotateTween;
     NavMeshAgent navMeshAgent;
 
     private void Awake()

@@ -30,6 +30,7 @@ public class Castle : MonoBehaviour
     public void GetHit(float damage)
     {
         health -= damage;
+        Debug.Log(health);
     }
 
     public void Attack(Transform nearestEnemy)
