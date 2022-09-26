@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class Castle : MonoBehaviour
 {
-    float health = 1000;
+    float health = 3000;
     float attackRate = 1.25f;
     public Castle instance;
     Tweener ShootTween;
@@ -23,7 +23,7 @@ public class Castle : MonoBehaviour
         {
             GetDestroyed();
         }
-        CheckRangeAndAttackNearest(transform.position, 4f);
+        CheckRangeAndAttackNearest(transform.position, 6f);
 
 
     }
