@@ -13,5 +13,9 @@ public class CannonBallGetHit : MonoBehaviour
             other.gameObject.GetComponent<IEnemy>().GetHit(damage);
             Destroy(gameObject); 
         }
+        else if(other.gameObject.CompareTag("Ground"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
