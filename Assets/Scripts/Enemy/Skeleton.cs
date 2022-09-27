@@ -15,6 +15,7 @@ public class Skeleton : MonoBehaviour,IEnemy
     float damage = 20f;
     float speed = 5f;
     float attackRate = 1.25f;
+    bool canAttack = false;
     Skeleton instance;
     //Other components
     Tweener moveTween;
@@ -39,11 +40,11 @@ public class Skeleton : MonoBehaviour,IEnemy
         {
             Destroy(gameObject);
         }
-        CheckRange(transform.position, 1f);
-        if (navMeshAgent.velocity == Vector3.zero)
+        CheckRange(transform.position, 4f);
+        if (canAttack)
         {
             InvokeRepeating("Attack", attackRate, attackRate);
-            Debug.Log("Attacked");
+           
         }
     }
 
@@ -72,7 +73,8 @@ public class Skeleton : MonoBehaviour,IEnemy
             {
                 if (hitCollider.gameObject.name == "Castle")
                 {
-                    navMeshAgent.velocity = Vector3.zero;
+                    
+                    canAttack = true;
                 }
             }
             else

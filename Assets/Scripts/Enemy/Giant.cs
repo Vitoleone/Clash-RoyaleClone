@@ -15,6 +15,7 @@ public class Giant : MonoBehaviour,IEnemy
     float damage = 100f;
     float speed = 3.5f;
     float attackRate = 2f;
+    bool canAttack = false;
     //Other components
     NavMeshAgent navMeshAgent;
 
@@ -35,9 +36,10 @@ public class Giant : MonoBehaviour,IEnemy
         {
             Destroy(gameObject);
         }
-        CheckRange(transform.position, 1f);
-        if(navMeshAgent.velocity == Vector3.zero)
+        CheckRange(transform.position, 4f);
+        if(canAttack)
         {
+            
             InvokeRepeating("Attack",attackRate,attackRate);
         }
     }
@@ -45,6 +47,7 @@ public class Giant : MonoBehaviour,IEnemy
 
     public void Attack()
     {
+        
         if(castle != null)
         {
             castleInstance.GetHit(damage);
@@ -66,8 +69,8 @@ public class Giant : MonoBehaviour,IEnemy
             if(hitCollider != null)
             {
                 if(hitCollider.gameObject.name == "Castle")
-                {
-                    navMeshAgent.velocity = Vector3.zero;
+                {          
+                    canAttack = true;
                 }
             }
             else

@@ -15,6 +15,7 @@ public class Archer : MonoBehaviour,IEnemy
     float damage = 35f;
     float speed = 4.5f;
     float attackRate = 1.25f;
+    bool canAttack = false;
     //Other components
     NavMeshAgent navMeshAgent;
     [SerializeField]GameObject Arrow;
@@ -37,7 +38,7 @@ public class Archer : MonoBehaviour,IEnemy
             Destroy(gameObject);
         }
         CheckRange(transform.position, 5f);
-        if (navMeshAgent.velocity == Vector3.zero)
+        if (canAttack)
         {
             InvokeRepeating("Attack", attackRate, attackRate);
         }
@@ -70,6 +71,7 @@ public class Archer : MonoBehaviour,IEnemy
                 if (hitCollider.gameObject.name == "Castle")
                 {
                     navMeshAgent.velocity = Vector3.zero;
+                    canAttack = true;
                 }
             }
             else
