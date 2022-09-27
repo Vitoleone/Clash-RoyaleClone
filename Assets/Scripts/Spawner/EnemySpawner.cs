@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     void SpawnRandomEnemy()
     {
         int randomNum = Random.Range(0, enemies.Count);
-        GameObject newEnemy = Instantiate(enemies[randomNum], Random.insideUnitCircle * 4f, Quaternion.identity);
+        GameObject newEnemy = Instantiate(enemies[randomNum], transform.position, Quaternion.identity);
     }
 
     

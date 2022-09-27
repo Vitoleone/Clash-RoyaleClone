@@ -16,6 +16,7 @@ public class Skeleton : MonoBehaviour,IEnemy
     float speed = 5f;
     float attackRate = 1.25f;
     bool canAttack = false;
+    Animator myAnim;
     Skeleton instance;
     //Other components
     Tweener moveTween;
@@ -27,6 +28,7 @@ public class Skeleton : MonoBehaviour,IEnemy
         castle = GameObject.Find("Castle");
         castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        myAnim = GetComponent<Animator>();
         instance = this;
     }
     void Start()
@@ -53,6 +55,7 @@ public class Skeleton : MonoBehaviour,IEnemy
     {
         if (castle != null)
         {
+            myAnim.SetBool("CanAttack", true);
             castleInstance.GetHit(damage);
         }
         CancelInvoke();
