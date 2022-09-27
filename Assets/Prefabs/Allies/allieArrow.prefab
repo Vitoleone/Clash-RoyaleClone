@@ -127,3 +127,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 30
+  getHitParticle: {fileID: 6210047202561972183, guid: e2739da14c923c5449cee96f2e83953d, type: 3}

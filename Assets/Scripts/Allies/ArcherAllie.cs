@@ -53,7 +53,7 @@ public class ArcherAllie : MonoBehaviour, IAllie
         {
             myAnim.SetBool("canAttack", true);
             GameObject arrow = Instantiate(Arrow, transform.position, Quaternion.identity);
-            arrow.transform.DOMove(castle.transform.position, 0.5f);
+            arrow.transform.DOMove(castle.transform.position + Vector3.up*2, 0.5f);
         }
         CancelInvoke();
     }

@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: -6647836639725560699}
   m_Layer: 0
   m_Name: EnemyArcher
-  m_TagString: Allie
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

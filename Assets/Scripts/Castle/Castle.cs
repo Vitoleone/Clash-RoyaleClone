@@ -12,6 +12,7 @@ public class Castle : MonoBehaviour
     public Castle instance;
     Tweener ShootTween;
     [SerializeField] GameObject canonBall;
+    [SerializeField] GameObject getHitParticle;
     private void Awake()
     {
         instance = this;
@@ -30,6 +31,7 @@ public class Castle : MonoBehaviour
     public void GetHit(float damage)
     {
         health -= damage;
+        Instantiate(getHitParticle, transform.position + Vector3.up*1.5f, Quaternion.identity);
         Debug.Log(health);
     }
 
