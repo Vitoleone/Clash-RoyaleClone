@@ -16,6 +16,7 @@ public class ArcherAllie : MonoBehaviour, IAllie
     float speed = 4.5f;
     float attackRate = 1.25f;
     bool canAttack = false;
+    Animator myAnim;
     //Other components
     NavMeshAgent navMeshAgent;
     [SerializeField] GameObject Arrow;
@@ -25,6 +26,7 @@ public class ArcherAllie : MonoBehaviour, IAllie
         castle = GameObject.Find("EnemyCastle");
         castleInstance = castle.GetComponent<EnemyCastle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        myAnim = GetComponent<Animator>();
     }
     void Start()
     {
@@ -49,6 +51,7 @@ public class ArcherAllie : MonoBehaviour, IAllie
     {
         if (castle != null)
         {
+            myAnim.SetBool("canAttack", true);
             GameObject arrow = Instantiate(Arrow, transform.position, Quaternion.identity);
             arrow.transform.DOMove(castle.transform.position, 0.5f);
         }
