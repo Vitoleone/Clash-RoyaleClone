@@ -16,6 +16,7 @@ public class Giant : MonoBehaviour,IEnemy
     float speed = 3.5f;
     float attackRate = 2f;
     bool canAttack = false;
+    Animator myAnim;
     //Other components
     NavMeshAgent navMeshAgent;
 
@@ -24,6 +25,7 @@ public class Giant : MonoBehaviour,IEnemy
         castle = GameObject.Find("Castle");
         castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        myAnim = GetComponent<Animator>();
     }
     void Start()
     {
@@ -50,6 +52,7 @@ public class Giant : MonoBehaviour,IEnemy
         
         if(castle != null)
         {
+            myAnim.SetBool("CanHit", true);
             castleInstance.GetHit(damage);
         }
         CancelInvoke();
@@ -58,6 +61,7 @@ public class Giant : MonoBehaviour,IEnemy
     public void Move()
     {
         navMeshAgent.SetDestination(castle.transform.position);
+        myAnim.SetBool("isWalking", true);
         navMeshAgent.speed = speed;
     }
     public void CheckRange(Vector3 center, float radius)
@@ -69,7 +73,8 @@ public class Giant : MonoBehaviour,IEnemy
             if(hitCollider != null)
             {
                 if(hitCollider.gameObject.name == "Castle")
-                {          
+                {
+                    myAnim.SetBool("isWalking", false);
                     canAttack = true;
                 }
             }
