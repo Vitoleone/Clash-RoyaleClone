@@ -11,7 +11,7 @@ public class ArcherAllie : MonoBehaviour, IAllie
     GameObject castle;
     EnemyCastle castleInstance;
     //Enemy Attributes
-    [SerializeField] float health = 150f;
+    public float health = 150f;
     float damage = 35f;
     float speed = 4.5f;
     float attackRate = 1.25f;
@@ -20,16 +20,24 @@ public class ArcherAllie : MonoBehaviour, IAllie
     //Other components
     NavMeshAgent navMeshAgent;
     [SerializeField] GameObject Arrow;
+    GameObject healthBar;
+    public ArcherAllie instance;
+
 
     private void Awake()
     {
+        instance = this;
         castle = GameObject.Find("EnemyCastle");
         castleInstance = castle.GetComponent<EnemyCastle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        myAnim = GetComponent<Animator>();
+        myAnim = GetComponent<Animator>(); 
+        //healthBar = transform.Find("HealthBackground").gameObject;
+        
+
     }
     void Start()
     {
+        
         Move();
 
     }

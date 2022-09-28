@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class Castle : MonoBehaviour
 {
-    float health = 3000;
+    public float health = 3000;
     float attackRate = 1.25f;
     public Castle instance;
     Tweener ShootTween;

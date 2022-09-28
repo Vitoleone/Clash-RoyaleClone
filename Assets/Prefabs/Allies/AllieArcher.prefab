@@ -785,6 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 150
   Arrow: {fileID: 3700213960988826800, guid: 2a40bbe87fa37cd4bad99b4bc5fed7ec, type: 3}
+  instance: {fileID: 0}
 --- !u!195 &5335151281362202123
 NavMeshAgent:
   m_ObjectHideFlags: 0

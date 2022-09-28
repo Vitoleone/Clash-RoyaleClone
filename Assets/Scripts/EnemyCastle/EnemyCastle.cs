@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class EnemyCastle : MonoBehaviour
 {
-    float health = 3000;
+    public float health = 3000;
     float attackRate = 1.25f;
     public EnemyCastle instance;
     Tweener ShootTween;
@@ -31,7 +31,6 @@ public class EnemyCastle : MonoBehaviour
     {
         health -= damage;
         Instantiate(getHitParticle, transform.position + Vector3.up * 1.5f, Quaternion.identity);
-        Debug.Log(health);
     }
 
     public void Attack(Transform nearestEnemy)
