@@ -12,11 +12,14 @@ public class SpawnSoldier : MonoBehaviour
     bool canSpawn = true;
     private Vector3 mOffset;
     private float mZCoord;
+    float energAmount = 2;
+    [SerializeField] GameObject energyBar;
 
     private void OnMouseDown()
     {
-        if (canSpawn)
+        if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
+            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
             newSoldier = Instantiate(soldier, transform.position, Quaternion.identity);
             ComponentAdjustment(false);
             soldierMaterial.DOFade(0.3f, 0);

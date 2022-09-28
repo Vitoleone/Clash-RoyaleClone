@@ -12,11 +12,14 @@ public class SpawnGiant : MonoBehaviour
     bool canSpawn = true;
     private Vector3 mOffset;
     private float mZCoord;
+    float energAmount = 4;
+    [SerializeField]GameObject energyBar;
 
     private void OnMouseDown()
     {
-        if(canSpawn)
+        if(canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
+            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
             newgiant = Instantiate(giant,transform);
             newgiant.GetComponent<GiantAllie>().enabled = false;
             newgiant.transform.Find("RockGolemMesh").GetComponent<SkinnedMeshRenderer>().material.DOFade(0.3f,0);

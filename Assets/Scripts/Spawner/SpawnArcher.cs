@@ -11,11 +11,14 @@ public class SpawnArcher : MonoBehaviour
     bool canSpawn = true;
     private Vector3 mOffset;
     private float mZCoord;
+    float energAmount = 2;
+    [SerializeField] GameObject energyBar;
 
     private void OnMouseDown()
     {
-        if (canSpawn)
+        if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
+            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
             newArcher = Instantiate(archer, transform.position,Quaternion.identity);
             newArcher.GetComponent<ArcherAllie>().enabled = false;
             newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[0].DOFade(0.3f, 0);
