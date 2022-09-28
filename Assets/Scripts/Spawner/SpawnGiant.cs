@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class SpawnGiant : MonoBehaviour
         {
             newgiant = Instantiate(giant,transform);
             newgiant.GetComponent<GiantAllie>().enabled = false;
+            newgiant.transform.Find("RockGolemMesh").GetComponent<SkinnedMeshRenderer>().material.DOFade(0.3f,0);
+            //newgiant.GetComponent<Renderer>().material.DOFade(0.3f, 0f);
             newgiant.GetComponent<NavMeshAgent>().enabled = false;
             newgiant.GetComponent<Animator>().enabled = false;
             canSpawn = false;
@@ -34,14 +37,23 @@ public class SpawnGiant : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        newgiant.transform.position = GetMouseWorldPos() + mOffset;
+        //z= 10.70939, x= -0.2096049
+        if ( (GetMouseWorldPos() + mOffset).z <= -8f)
+        {
+            newgiant.transform.position = GetMouseWorldPos() + mOffset;
+        }
+        
     }
     private void OnMouseUp()
     {
-        newgiant.transform.position = GetMouseWorldPos() + mOffset;
+        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        {
+            newgiant.transform.position = GetMouseWorldPos() + mOffset;
+        }
         newgiant.GetComponent<GiantAllie>().enabled = true;
         newgiant.GetComponent<NavMeshAgent>().enabled = true;
         newgiant.GetComponent<Animator>().enabled = true;
+        newgiant.transform.Find("RockGolemMesh").GetComponent<SkinnedMeshRenderer>().material.DOFade(1f, 0);
         canSpawn = true;
     }
 

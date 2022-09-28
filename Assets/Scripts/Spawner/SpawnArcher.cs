@@ -1,0 +1,62 @@
+using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class SpawnArcher : MonoBehaviour
+{
+    public GameObject archer;
+    public GameObject newArcher;
+    bool canSpawn = true;
+    private Vector3 mOffset;
+    private float mZCoord;
+
+    private void OnMouseDown()
+    {
+        if (canSpawn)
+        {
+            newArcher = Instantiate(archer, transform.position,Quaternion.identity);
+            newArcher.GetComponent<ArcherAllie>().enabled = false;
+            newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[0].DOFade(0.3f, 0);
+            newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[1].DOFade(0.3f, 0);
+            newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[2].DOFade(0.3f, 0);
+            //newgiant.GetComponent<Renderer>().material.DOFade(0.3f, 0f);
+            newArcher.GetComponent<NavMeshAgent>().enabled = false;
+            newArcher.GetComponent<Animator>().enabled = false;
+            canSpawn = false;
+        }
+        mZCoord = Camera.main.WorldToScreenPoint(newArcher.transform.position).z;
+        mOffset = newArcher.transform.position - GetMouseWorldPos();
+    }
+
+    private Vector3 GetMouseWorldPos()
+    {
+        Vector3 mousePoint = Input.mousePosition;
+        mousePoint.z = mZCoord;
+        return Camera.main.ScreenToWorldPoint(mousePoint);
+    }
+    private void OnMouseDrag()
+    {
+        //z= 10.70939, x= -0.2096049
+        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        {
+            newArcher.transform.position = GetMouseWorldPos() + mOffset;
+        }
+
+    }
+    private void OnMouseUp()
+    {
+        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        {
+            newArcher.transform.position = GetMouseWorldPos() + mOffset;
+        }
+        newArcher.GetComponent<ArcherAllie>().enabled = true;
+        newArcher.GetComponent<NavMeshAgent>().enabled = true;
+        newArcher.GetComponent<Animator>().enabled = true;
+        newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[0].DOFade(1, 0);
+        newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[1].DOFade(1, 0);
+        newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[2].DOFade(1, 0);
+        canSpawn = true;
+    }
+}
