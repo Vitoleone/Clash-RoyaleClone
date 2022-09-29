@@ -8,6 +8,7 @@ public class EnergyBar : MonoBehaviour
     float maxEnergy = 10;
     public float currentEnergy = 0;
     public EnergyBar instance;
+    [SerializeField] GameObject energyBarText;
     Image HealthBar;
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class EnergyBar : MonoBehaviour
         if(currentEnergy >= 0 && currentEnergy <= 10)
         {
             currentEnergy += Time.deltaTime;
+            energyBarText.GetComponent<Text>().text = Mathf.RoundToInt(currentEnergy).ToString();
             HealthBar.fillAmount = currentEnergy / maxEnergy;
         }
         
@@ -30,10 +32,12 @@ public class EnergyBar : MonoBehaviour
         if(currentEnergy - amount <= 0)
         {
             currentEnergy = 0;
+            energyBarText.GetComponent<Text>().text = Mathf.RoundToInt(currentEnergy).ToString();
         }
         else
         {
             currentEnergy -= amount;
+            energyBarText.GetComponent<Text>().text = Mathf.RoundToInt(currentEnergy).ToString();
         }
     }
 }
