@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
 
 public class SpawnGiant : MonoBehaviour
 {
@@ -14,22 +16,30 @@ public class SpawnGiant : MonoBehaviour
     private float mZCoord;
     float energAmount = 4;
     [SerializeField]GameObject energyBar;
-
+    private AsyncOperationHandle<GameObject> mGiantLoadingHandle;
     private void OnMouseDown()
     {
         if(canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
             energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
-            newgiant = Instantiate(giant,transform);
-            newgiant.GetComponent<GiantAllie>().enabled = false;
-            newgiant.transform.Find("RockGolemMesh").GetComponent<SkinnedMeshRenderer>().material.DOFade(0.3f,0);
-            //newgiant.GetComponent<Renderer>().material.DOFade(0.3f, 0f);
-            newgiant.GetComponent<NavMeshAgent>().enabled = false;
-            newgiant.GetComponent<Animator>().enabled = false;
-            canSpawn = false;
+
+            mGiantLoadingHandle = Addressables.InstantiateAsync("GiantAllie", transform.position, Quaternion.identity);
+            mGiantLoadingHandle.Completed += OnGiantInstantiated; 
+            
         }
+        
+    }
+    private void OnGiantInstantiated(AsyncOperationHandle<GameObject> gameObject)
+    {
+        newgiant = gameObject.Result;
+        newgiant.GetComponent<GiantAllie>().enabled = false;
+        newgiant.transform.Find("RockGolemMesh").GetComponent<SkinnedMeshRenderer>().material.DOFade(0.3f, 0);
+        //newgiant.GetComponent<Renderer>().material.DOFade(0.3f, 0f);
+        newgiant.GetComponent<NavMeshAgent>().enabled = false;
+        newgiant.GetComponent<Animator>().enabled = false;
         mZCoord = Camera.main.WorldToScreenPoint(newgiant.transform.position).z;
         mOffset = newgiant.transform.position - GetMouseWorldPos();
+        canSpawn = false;
     }
 
     private Vector3 GetMouseWorldPos()
@@ -41,7 +51,7 @@ public class SpawnGiant : MonoBehaviour
     private void OnMouseDrag()
     {
         //z= 10.70939, x= -0.2096049
-        if ( (GetMouseWorldPos() + mOffset).z <= -8f)
+        if ( (GetMouseWorldPos() + mOffset).z <= -8f && newgiant.GetComponent<GiantAllie>().enabled == false)
         {
             newgiant.transform.position = GetMouseWorldPos() + mOffset;
         }
@@ -49,7 +59,7 @@ public class SpawnGiant : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        if ((GetMouseWorldPos() + mOffset).z <= -8f && newgiant.GetComponent<GiantAllie>().enabled == false)
         {
             newgiant.transform.position = GetMouseWorldPos() + mOffset;
         }

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.AddressableAssets;
 
 public class SpawnSoldier : MonoBehaviour
 {
@@ -14,19 +16,29 @@ public class SpawnSoldier : MonoBehaviour
     private float mZCoord;
     float energAmount = 2;
     [SerializeField] GameObject energyBar;
+    private AsyncOperationHandle<GameObject> mSoldierHandle;
 
     private void OnMouseDown()
     {
         if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
             energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
-            newSoldier = Instantiate(soldier, transform.position, Quaternion.identity);
-            ComponentAdjustment(false);
+            mSoldierHandle = Addressables.InstantiateAsync("SoldiersAllie", transform.position, Quaternion.identity);
+            mSoldierHandle.Completed += OnSoldierInstantiated;
+        }
+        
+    }
+    private void OnSoldierInstantiated(AsyncOperationHandle<GameObject> gameObject)
+    {
+        if (gameObject.Status == AsyncOperationStatus.Succeeded)
+        {
+            newSoldier = gameObject.Result;
+            mZCoord = Camera.main.WorldToScreenPoint(newSoldier.transform.position).z;
+            mOffset = newSoldier.transform.position - GetMouseWorldPos();
             soldierMaterial.DOFade(0.3f, 0);
             canSpawn = false;
+            ComponentAdjustment(false);
         }
-        mZCoord = Camera.main.WorldToScreenPoint(newSoldier.transform.position).z;
-        mOffset = newSoldier.transform.position - GetMouseWorldPos();
     }
 
     private Vector3 GetMouseWorldPos()
@@ -38,37 +50,42 @@ public class SpawnSoldier : MonoBehaviour
     private void OnMouseDrag()
     {
         //z= 10.70939, x= -0.2096049
-        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        if ((GetMouseWorldPos() + mOffset).z <= -8f && newSoldier == mSoldierHandle.Result && newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled == false)
         {
+            Debug.Log("Hareket");
             newSoldier.transform.position = GetMouseWorldPos() + mOffset;
         }
 
     }
     private void OnMouseUp()
     {
-        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        if ((GetMouseWorldPos() + mOffset).z <= -8f && newSoldier != null && newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled == false)
         {
             newSoldier.transform.position = GetMouseWorldPos() + mOffset;
         }
         ComponentAdjustment(true);
         soldierMaterial.DOFade(1f, 0);
-        newSoldier = null;
         canSpawn = true;
     }
 
     void ComponentAdjustment(bool value)
     {
-        newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled = value;
-        newSoldier.GetComponentsInChildren<SoldiersAllie>()[1].enabled = value;
-        newSoldier.GetComponentsInChildren<SoldiersAllie>()[2].enabled = value;
 
-        newSoldier.GetComponentsInChildren<NavMeshAgent>()[0].enabled = value;
-        newSoldier.GetComponentsInChildren<NavMeshAgent>()[1].enabled = value;
-        newSoldier.GetComponentsInChildren<NavMeshAgent>()[2].enabled = value;
+        if(newSoldier != null)
+        {
+            newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled = value;
+            newSoldier.GetComponentsInChildren<SoldiersAllie>()[1].enabled = value;
+            newSoldier.GetComponentsInChildren<SoldiersAllie>()[2].enabled = value;
 
-        newSoldier.GetComponentsInChildren<Animator>()[0].enabled = value;
-        newSoldier.GetComponentsInChildren<Animator>()[1].enabled = value;
-        newSoldier.GetComponentsInChildren<Animator>()[2].enabled = value;
+            newSoldier.GetComponentsInChildren<NavMeshAgent>()[0].enabled = value;
+            newSoldier.GetComponentsInChildren<NavMeshAgent>()[1].enabled = value;
+            newSoldier.GetComponentsInChildren<NavMeshAgent>()[2].enabled = value;
+
+            newSoldier.GetComponentsInChildren<Animator>()[0].enabled = value;
+            newSoldier.GetComponentsInChildren<Animator>()[1].enabled = value;
+            newSoldier.GetComponentsInChildren<Animator>()[2].enabled = value;
+        }
+        
 
     }
 }

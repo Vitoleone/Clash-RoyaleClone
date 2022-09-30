@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class SpawnArcher : MonoBehaviour
 {
@@ -13,13 +15,27 @@ public class SpawnArcher : MonoBehaviour
     private float mZCoord;
     float energAmount = 2;
     [SerializeField] GameObject energyBar;
+    private AsyncOperationHandle<GameObject> mArcherLoadingHandle;
 
     private void OnMouseDown()
     {
         if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
             energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
-            newArcher = Instantiate(archer, transform.position,Quaternion.identity);
+            //newArcher = Instantiate(archer, transform.position,Quaternion.identity);
+            mArcherLoadingHandle = Addressables.InstantiateAsync("AllieArcher", transform.position, Quaternion.identity);
+            mArcherLoadingHandle.Completed += OnArcherInstantiated;
+            
+            
+            canSpawn = false;
+        }
+        
+    }
+    private void OnArcherInstantiated(AsyncOperationHandle<GameObject> gameObject )
+    {
+        if(gameObject.Status == AsyncOperationStatus.Succeeded)
+        {
+            newArcher = gameObject.Result;
             newArcher.GetComponent<ArcherAllie>().enabled = false;
             newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[0].DOFade(0.3f, 0);
             newArcher.transform.Find("U3DMesh").GetComponent<SkinnedMeshRenderer>().materials[1].DOFade(0.3f, 0);
@@ -27,12 +43,10 @@ public class SpawnArcher : MonoBehaviour
             //newgiant.GetComponent<Renderer>().material.DOFade(0.3f, 0f);
             newArcher.GetComponent<NavMeshAgent>().enabled = false;
             newArcher.GetComponent<Animator>().enabled = false;
-            canSpawn = false;
+            mZCoord = Camera.main.WorldToScreenPoint(newArcher.transform.position).z;
+            mOffset = newArcher.transform.position - GetMouseWorldPos();
         }
-        mZCoord = Camera.main.WorldToScreenPoint(newArcher.transform.position).z;
-        mOffset = newArcher.transform.position - GetMouseWorldPos();
     }
-
     private Vector3 GetMouseWorldPos()
     {
         Vector3 mousePoint = Input.mousePosition;
@@ -42,7 +56,7 @@ public class SpawnArcher : MonoBehaviour
     private void OnMouseDrag()
     {
         //z= 10.70939, x= -0.2096049
-        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        if ((GetMouseWorldPos() + mOffset).z <= -8f && newArcher.GetComponent<ArcherAllie>().enabled == false)
         {
             newArcher.transform.position = GetMouseWorldPos() + mOffset;
         }
@@ -50,7 +64,7 @@ public class SpawnArcher : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if ((GetMouseWorldPos() + mOffset).z <= -8f)
+        if ((GetMouseWorldPos() + mOffset).z <= -8f && newArcher.GetComponent<ArcherAllie>().enabled == false)
         {
             newArcher.transform.position = GetMouseWorldPos() + mOffset;
         }
