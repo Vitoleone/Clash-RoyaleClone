@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Remote
+  m_EditorClassIdentifier: 
+  m_GroupName: Remote
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f79a29efc124e4d41b0f8460eba0a765
+  m_SerializeEntries:
+  - m_GUID: 2a40bbe87fa37cd4bad99b4bc5fed7ec
+    m_Address: allieArrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3784153e1a079a64e940949323845707
+    m_Address: SoldiersAllie
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 5546cf62901f3c44490fe7e59d43f2b3
+    m_Address: AllieArcher
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f5f9824418f878b49a73d0c23c7a3838
+    m_Address: GiantAllie
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9fc0d4010bbf28b4594072e72b8655ab
+    m_Address: DemoScene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 211962e4450d1734a81164dce9442394, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c8aa9d9b70b12054ca8ab088d8d4c4b1, type: 2}
+    - {fileID: 11400000, guid: b9f6e9054b14d1944a403f3513a65e60, type: 2}
