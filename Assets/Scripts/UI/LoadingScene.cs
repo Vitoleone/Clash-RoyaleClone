@@ -11,9 +11,9 @@ public class LoadingScene : MonoBehaviour
     private AsyncOperationHandle m_SceneHandle;
 
     Image fullLoadingBar;
-    float waitTime = 5f;
+    float waitTime = 2.5f;
     float timer = 0.1f;
-    private void OnEnable()
+    private void GetNewScene()
     {
         m_SceneHandle = Addressables.DownloadDependenciesAsync("DemoScene");
         m_SceneHandle.Completed += OnSceneLoaded;
@@ -41,6 +41,12 @@ public class LoadingScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fullLoadingBar.fillAmount = m_SceneHandle.PercentComplete;
+        timer += Time.deltaTime;
+        fullLoadingBar.fillAmount = timer / waitTime;
+        if (m_SceneHandle.IsDone && fullLoadingBar.fillAmount == 1)
+        {
+            GetNewScene();
+        }
+         
     }
 }

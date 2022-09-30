@@ -59,7 +59,7 @@ MonoBehaviour:
       - m_Id: 399dcc7c4cc035b41a2ec5db7b01c871
         m_Value: ServerData/[BuildTarget]
       - m_Id: 1291e777a0e05cd478ef9caa2801189a
-        m_Value: https://0f429599-464e-435b-8953-f5f3d55c7b6f.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/0dcf8b64-c4bd-4536-b0c4-baada7b9744b/release_by_badge/latest/entry_by_path/content/?path=
+        m_Value: https://0f429599-464e-435b-8953-f5f3d55c7b6f.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/0e278be5-857f-4511-9e3b-af515b447df6/release_by_badge/latest/entry_by_path/content/?path=
     - m_InheritedParent: 
       m_Id: cf7c8a06f93fe29418173b45583ab009
       m_ProfileName: Remote

@@ -114,8 +114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d037ba883622cba43a3800a385b546d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 3000
   instance: {fileID: 0}
   canonBall: {fileID: 357628122319396943, guid: 7823801065f7e234ebdf258936d1a2c4, type: 3}
+  getHitParticle: {fileID: 0}
 --- !u!54 &118802475
 Rigidbody:
   m_ObjectHideFlags: 0

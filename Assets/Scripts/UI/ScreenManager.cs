@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.SceneManagement;
 
 public class ScreenManager : MonoBehaviour
 {
@@ -10,6 +13,12 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] GameObject gameOverScreen;
     Castle castleInstance;
     EnemyCastle enemyCastleInstance;
+    
+    private void GetNewScene()
+    {
+        
+    }
+   
     void Start()
     {
         enemyCastleInstance = enemyCastle.GetComponent<EnemyCastle>();
@@ -31,5 +40,20 @@ public class ScreenManager : MonoBehaviour
             Time.timeScale = 0;
         }
         
+    }
+    public void RestartGame()
+    {
+        AsyncOperationHandle m_SceneHandle;
+        m_SceneHandle = Addressables.DownloadDependenciesAsync("LoadingScene");
+        m_SceneHandle.Completed += OnSceneLoaded;
+    }
+    private void OnSceneLoaded(AsyncOperationHandle obj)
+    {
+        if (obj.Status == AsyncOperationStatus.Succeeded)
+        {
+            Addressables.LoadSceneAsync("LoadingScene", LoadSceneMode.Single, true);
+            obj.Completed -= OnSceneLoaded;
+        }
+
     }
 }
