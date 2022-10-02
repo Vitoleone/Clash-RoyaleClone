@@ -59,7 +59,7 @@ MonoBehaviour:
       - m_Id: 399dcc7c4cc035b41a2ec5db7b01c871
         m_Value: ServerData/[BuildTarget]
       - m_Id: 1291e777a0e05cd478ef9caa2801189a
-        m_Value: https://0f429599-464e-435b-8953-f5f3d55c7b6f.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/0e278be5-857f-4511-9e3b-af515b447df6/release_by_badge/latest/entry_by_path/content/?path=
+        m_Value: https://storage.googleapis.com/nosurrendercase/[BuildTarget]
     - m_InheritedParent: 
       m_Id: cf7c8a06f93fe29418173b45583ab009
       m_ProfileName: Remote
@@ -74,6 +74,20 @@ MonoBehaviour:
         m_Value: ServerData/[BuildTarget]
       - m_Id: 1291e777a0e05cd478ef9caa2801189a
         m_Value: https://0f429599-464e-435b-8953-f5f3d55c7b6f.client-api.unity3dusercontent.com/client_api/v1/environments/production/buckets/976f1bc1-9b3c-4eff-a264-41a74131268e/releases/03b76395-8e92-483e-b516-e366ade61764/entry_by_path/content/?path=
+    - m_InheritedParent: 
+      m_Id: c937271425536da4c992f1fd9adef4b5
+      m_ProfileName: AWSRemote
+      m_Values:
+      - m_Id: 51ebcb65ab2e225489d1de911e81316c
+        m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
+      - m_Id: 99b00a7776a0f024490100a2c1fa8af8
+        m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
+      - m_Id: 350f00669fbc0ee4f8c2cfe3744784fd
+        m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
+      - m_Id: 399dcc7c4cc035b41a2ec5db7b01c871
+        m_Value: ServerData/[BuildTarget]
+      - m_Id: 1291e777a0e05cd478ef9caa2801189a
+        m_Value: https://console.cloud.google.com/storage/browser/nosurrendercase/[BuildTarget]
     m_ProfileEntryNames:
     - m_Id: 51ebcb65ab2e225489d1de911e81316c
       m_Name: BuildTarget

@@ -6,7 +6,11 @@ public class HealthBarScript : MonoBehaviour
 {
     [SerializeField] GameObject Castle;
     [SerializeField] GameObject healthBarBackground;
+    [SerializeField] GameObject Enemy;
+    [SerializeField] GameObject Allie;
     EnemyCastle EnemyCastleInstance;
+    IEnemy enemy;
+    IAllie allie;
     Castle CastleInstance;
     float maxHealth;
     float currentHealth;
@@ -15,24 +19,45 @@ public class HealthBarScript : MonoBehaviour
     void Start()
     {
         healthBar = GetComponent<Image>();
-        if(Castle.gameObject.name == "Castle")
+        if (Castle != null)
         {
-            CastleInstance = Castle.GetComponent<Castle>();
-            maxHealth = CastleInstance.instance.health;
+            if (Castle.gameObject.name == "Castle")
+            {
+                CastleInstance = Castle.GetComponent<Castle>();
+                maxHealth = CastleInstance.instance.health;
+            }
+            else if (Castle.gameObject.name == "EnemyCastle")
+            {
+                EnemyCastleInstance = Castle.GetComponent<EnemyCastle>();
+                maxHealth = EnemyCastleInstance.instance.health;
+            }
         }
-        else if(Castle.gameObject.name == "EnemyCastle")
+        else if(Enemy != null)
         {
-            EnemyCastleInstance = Castle.GetComponent<EnemyCastle>();
-            maxHealth = EnemyCastleInstance.instance.health;
+            if (Enemy.gameObject.CompareTag("Enemy"))
+            {
+                enemy = Enemy.GetComponent<IEnemy>();
+                maxHealth = enemy.GetHealth();
+            }
         }
-        
-        
+        else if (Allie != null)
+        {
+            if (Allie.gameObject.CompareTag("Allie"))
+            {
+                allie = Allie.GetComponent<IAllie>();
+                maxHealth = allie.GetHealth();
+            }
+        }
+
+
+
         currentHealth = maxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
+        healthBarBackground.transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
         if(Castle != null && Castle.gameObject.name == "Castle")
         {
             currentHealth = CastleInstance.instance.health;
@@ -41,6 +66,16 @@ public class HealthBarScript : MonoBehaviour
         else if (Castle != null && Castle.gameObject.name == "EnemyCastle")
         {
             currentHealth = EnemyCastleInstance.instance.health;
+            healthBar.fillAmount = currentHealth / maxHealth;
+        }
+        else if (enemy != null)
+        {
+            currentHealth = enemy.GetHealth();
+            healthBar.fillAmount = currentHealth / maxHealth;
+        }
+        else if (allie != null)
+        {
+            currentHealth = allie.GetHealth();
             healthBar.fillAmount = currentHealth / maxHealth;
         }
         else
