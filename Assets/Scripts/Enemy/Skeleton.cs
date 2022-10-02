@@ -9,7 +9,7 @@ public class Skeleton : MonoBehaviour,IEnemy
 {
     //Castle objects
     GameObject castle;
-    EnemyCastle castleInstance;
+    Castle castleInstance;
     //Enemy Attributes
     public float health = 50f;
     float damage = 20f;
@@ -26,7 +26,7 @@ public class Skeleton : MonoBehaviour,IEnemy
     private void Awake()
     {
         castle = GameObject.Find("Castle");
-        castleInstance = castle.GetComponent<EnemyCastle>();
+        castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         myAnim = GetComponent<Animator>();
         instance = this;

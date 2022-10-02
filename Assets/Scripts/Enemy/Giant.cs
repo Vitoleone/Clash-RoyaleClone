@@ -9,7 +9,7 @@ public class Giant : MonoBehaviour,IEnemy
 {
     //Castle objects
     GameObject castle;
-    EnemyCastle castleInstance;
+    Castle castleInstance;
     //Enemy Attributes
     [SerializeField] float health = 300f;
     float damage = 100f;
@@ -23,7 +23,7 @@ public class Giant : MonoBehaviour,IEnemy
     private void Awake()
     {
         castle = GameObject.Find("Castle");
-        castleInstance = castle.GetComponent<EnemyCastle>();
+        castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         myAnim = GetComponent<Animator>();
     }

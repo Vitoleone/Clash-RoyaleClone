@@ -12,7 +12,13 @@ public class ArrowGetHit : MonoBehaviour
 
         if (other.gameObject.CompareTag("Castle"))
         {
-            other.gameObject.GetComponent<Castle>().GetHit(damage);
+            other.gameObject.GetComponent<EnemyCastle>().GetHit(damage);
+            Instantiate(getHitParticle, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+        else if (other.gameObject.CompareTag("Allie"))
+        {
+            other.gameObject.GetComponent<IAllie>().GetHit(damage);
             Instantiate(getHitParticle, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

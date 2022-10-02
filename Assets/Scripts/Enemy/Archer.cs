@@ -9,7 +9,7 @@ public class Archer : MonoBehaviour,IEnemy
 {
     //Castle objects
     GameObject castle;
-    EnemyCastle castleInstance;
+    Castle castleInstance;
     //Enemy Attributes
     public float health = 150f;
     float damage = 35f;
@@ -30,7 +30,7 @@ public class Archer : MonoBehaviour,IEnemy
     {
         instance = this;
         castle = GameObject.Find("Castle");
-        castleInstance = castle.GetComponent<EnemyCastle>();
+        castleInstance = castle.GetComponent<Castle>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         myAnim = GetComponent<Animator>();
         //healthBar = transform.Find("HealthBackground").gameObject;

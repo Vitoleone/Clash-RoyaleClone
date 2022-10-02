@@ -57,7 +57,7 @@ public class HealthBarScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthBarBackground.transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
+        
         if(Castle != null && Castle.gameObject.name == "Castle")
         {
             currentHealth = CastleInstance.instance.health;
@@ -72,14 +72,17 @@ public class HealthBarScript : MonoBehaviour
         {
             currentHealth = enemy.GetHealth();
             healthBar.fillAmount = currentHealth / maxHealth;
+            healthBarBackground.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
         else if (allie != null)
         {
             currentHealth = allie.GetHealth();
             healthBar.fillAmount = currentHealth / maxHealth;
+            healthBarBackground.transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
         }
         else
         {
+            
             Destroy(healthBarBackground);
         }
         
