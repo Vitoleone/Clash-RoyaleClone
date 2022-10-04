@@ -67,6 +67,7 @@ public class SoldiersAllie : MonoBehaviour,IAllie
         else if (nearestEnemy.gameObject.CompareTag("Enemy"))
         {
             nearestEnemy.gameObject.GetComponent<IEnemy>().GetHit(damage);
+            transform.DOLookAt(nearestEnemy.transform.position, 0f);
         }
 
     }

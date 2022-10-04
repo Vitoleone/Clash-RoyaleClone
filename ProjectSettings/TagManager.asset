@@ -10,6 +10,8 @@ TagManager:
   - Allie
   - Spawn
   - PlayerField
+  - FlyEnemy
+  - FlyAlly
   layers:
   - Default
   - TransparentFX

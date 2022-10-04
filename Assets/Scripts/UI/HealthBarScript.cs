@@ -34,7 +34,7 @@ public class HealthBarScript : MonoBehaviour
         }
         else if(Enemy != null)
         {
-            if (Enemy.gameObject.CompareTag("Enemy"))
+            if (Enemy.gameObject.CompareTag("Enemy") || Enemy.gameObject.CompareTag("FlyEnemy"))
             {
                 enemy = Enemy.GetComponent<IEnemy>();
                 maxHealth = enemy.GetHealth();
@@ -42,7 +42,7 @@ public class HealthBarScript : MonoBehaviour
         }
         else if (Allie != null)
         {
-            if (Allie.gameObject.CompareTag("Allie"))
+            if (Allie.gameObject.CompareTag("Allie") || Allie.gameObject.CompareTag("FlyAlly"))
             {
                 allie = Allie.GetComponent<IAllie>();
                 maxHealth = allie.GetHealth();

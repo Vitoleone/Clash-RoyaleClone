@@ -15,7 +15,7 @@ public class AllieArrowGetHit : MonoBehaviour
             Instantiate(getHitParticle,transform.position,Quaternion.identity);
             Destroy(gameObject);
         }
-        else if (other.gameObject.CompareTag("Enemy"))
+        else if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("FlyEnemy"))
         {
             other.gameObject.GetComponent<IEnemy>().GetHit(damage);
             Instantiate(getHitParticle, transform.position, Quaternion.identity);

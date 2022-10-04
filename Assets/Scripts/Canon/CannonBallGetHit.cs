@@ -8,7 +8,7 @@ public class CannonBallGetHit : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         
-        if(other.gameObject.CompareTag("Enemy"))
+        if(other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("FlyEnemy"))
         {
             other.gameObject.GetComponent<IEnemy>().GetHit(damage);
             Destroy(gameObject); 

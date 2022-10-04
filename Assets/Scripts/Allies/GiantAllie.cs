@@ -64,6 +64,7 @@ public class GiantAllie : MonoBehaviour,IAllie
         else if(nearestEnemy.gameObject.CompareTag("Enemy"))
         {
             nearestEnemy.gameObject.GetComponent<IEnemy>().GetHit(damage);
+            transform.DOLookAt(nearestEnemy.transform.position, 0f);
         }
 
     }
@@ -104,14 +105,14 @@ public class GiantAllie : MonoBehaviour,IAllie
                         Attack(GetNearestEnemy(enemies));//Attacks the enemy whic is the nearest.
                         attackRate = 2f;
                     }
-                    myAnim.SetBool("CanHit", false);
+                   
 
 
                 }
                 else
                 {
                     attackRate = 2f;
-                    
+                    myAnim.SetBool("CanHit", false);
                     navMeshAgent.SetDestination(castle.transform.position);
                 }
 

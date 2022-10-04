@@ -67,6 +67,7 @@ public class Skeleton : MonoBehaviour,IEnemy
         else if (nearestEnemy.gameObject.CompareTag("Allie"))
         {
             nearestEnemy.gameObject.GetComponent<IAllie>().GetHit(damage);
+            transform.DOLookAt(nearestEnemy.transform.position, 0f);
         }
 
     }

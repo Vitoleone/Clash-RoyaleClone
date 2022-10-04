@@ -59,11 +59,13 @@ public class Giant : MonoBehaviour,IEnemy
         myAnim.SetBool("CanHit", true);
         if (nearestEnemy.gameObject.name == "Castle")
         {
+            transform.DOLookAt(castle.transform.position, 0f);
             castleInstance.instance.GetHit(damage);
         }
         else if (nearestEnemy.gameObject.CompareTag("Allie"))
         {
             nearestEnemy.gameObject.GetComponent<IAllie>().GetHit(damage);
+            transform.DOLookAt(nearestEnemy.transform.position, 0f);
         }
 
     }
@@ -104,14 +106,14 @@ public class Giant : MonoBehaviour,IEnemy
                         Attack(GetNearestEnemy(enemies));//Attacks the enemy whic is the nearest.
                         attackRate = 2f;
                     }
-                    myAnim.SetBool("CanHit", false);
+                   
 
 
                 }
                 else
                 {
+                    myAnim.SetBool("CanHit", false);
                     attackRate = 2f;
-
                     navMeshAgent.SetDestination(castle.transform.position);
                 }
 

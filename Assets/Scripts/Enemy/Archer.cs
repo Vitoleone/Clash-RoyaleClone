@@ -69,6 +69,7 @@ public class Archer : MonoBehaviour,IEnemy
     {
 
         myAnim.SetBool("canAttack", true);
+        transform.DOLookAt(nearestEnemy.transform.position, 0f);
         GameObject arrow = Instantiate(Arrow, transform.position + Vector3.up * 3, Quaternion.identity);
         ShootTween = arrow.transform.DOMove(nearestEnemy.position + Vector3.up, 0.50f).OnComplete(delegate
         {
@@ -104,6 +105,10 @@ public class Archer : MonoBehaviour,IEnemy
                     {
                         enemies.Add(hitCollider.gameObject);
                     }
+                    else if (hitCollider != null && hitCollider.gameObject.tag == "FlyAlly")
+                    {
+                        enemies.Add(hitCollider.gameObject);
+                    }
 
                 }
                 if (enemies.Count > 0)
@@ -114,12 +119,13 @@ public class Archer : MonoBehaviour,IEnemy
                         Attack(GetNearestEnemy(enemies));//Attacks the enemy whic is the nearest.
                         attackRate = 1.25f;
                     }
-                    myAnim.SetBool("canAttack", false);
+                    
 
 
                 }
                 else
                 {
+                    myAnim.SetBool("canAttack", false);
                     navMeshAgent.SetDestination(castle.transform.position);
                 }
 

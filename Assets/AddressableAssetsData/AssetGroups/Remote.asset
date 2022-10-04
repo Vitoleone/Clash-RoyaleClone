@@ -41,6 +41,10 @@ MonoBehaviour:
     m_Address: LoadingScene
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: eafe831c22d8c53458ed8085ea2829c1
+    m_Address: DragonAlly
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 211962e4450d1734a81164dce9442394, type: 2}
   m_SchemaSet:

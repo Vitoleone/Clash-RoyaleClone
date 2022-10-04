@@ -13,7 +13,7 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] GameObject winScreen;
     [SerializeField] GameObject gameOverScreen;
     [SerializeField] Text timerText;
-    float timer = 15f;
+    float timer = 60f;
     Castle castleInstance;
     EnemyCastle enemyCastleInstance;
     

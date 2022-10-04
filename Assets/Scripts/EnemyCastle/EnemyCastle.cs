@@ -59,7 +59,7 @@ public class EnemyCastle : MonoBehaviour
             {
                 foreach (var hitCollider in collidersList)
                 {
-                    if (hitCollider != null && hitCollider.gameObject.tag == "Allie")
+                    if (hitCollider != null && (hitCollider.gameObject.tag == "Allie" || hitCollider.gameObject.tag == "FlyAlly"))
                     {
                         enemies.Add(hitCollider.gameObject);
                     }
