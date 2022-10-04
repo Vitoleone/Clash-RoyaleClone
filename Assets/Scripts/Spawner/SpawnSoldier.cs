@@ -5,67 +5,29 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 
-public class SpawnSoldier : MonoBehaviour
+public class SpawnSoldier : MonoBehaviour,IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     public GameObject soldier;
     public GameObject newSoldier;
     [SerializeField] Material soldierMaterial;
+    [SerializeField] Material soldierGhostMaterial;
     bool canSpawn = true;
-    private Vector3 mOffset;
-    private float mZCoord;
     float energAmount = 2;
     [SerializeField] GameObject energyBar;
     private AsyncOperationHandle<GameObject> mSoldierHandle;
 
-    private void OnMouseDown()
-    {
-        if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
-        {
-            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
-            mSoldierHandle = Addressables.InstantiateAsync("SoldiersAllie", transform.position, Quaternion.identity);
-            mSoldierHandle.Completed += OnSoldierInstantiated;
-        }
-        
-    }
+ 
     private void OnSoldierInstantiated(AsyncOperationHandle<GameObject> gameObject)
     {
         if (gameObject.Status == AsyncOperationStatus.Succeeded)
         {
             newSoldier = gameObject.Result;
-            mZCoord = Camera.main.WorldToScreenPoint(newSoldier.transform.position).z;
-            mOffset = newSoldier.transform.position - GetMouseWorldPos();
-            soldierMaterial.DOFade(0.3f, 0);
             canSpawn = false;
+            RaycastAndMove();
             ComponentAdjustment(false);
         }
-    }
-
-    private Vector3 GetMouseWorldPos()
-    {
-        Vector3 mousePoint = Input.mousePosition;
-        mousePoint.z = mZCoord;
-        return Camera.main.ScreenToWorldPoint(mousePoint);
-    }
-    private void OnMouseDrag()
-    {
-        //z= 10.70939, x= -0.2096049
-        if ((GetMouseWorldPos() + mOffset).z <= -8f && newSoldier == mSoldierHandle.Result && newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled == false)
-        {
-            Debug.Log("Hareket");
-            newSoldier.transform.position = GetMouseWorldPos() + mOffset;
-        }
-
-    }
-    private void OnMouseUp()
-    {
-        if ((GetMouseWorldPos() + mOffset).z <= -8f && newSoldier != null && newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled == false)
-        {
-            newSoldier.transform.position = GetMouseWorldPos() + mOffset;
-        }
-        ComponentAdjustment(true);
-        soldierMaterial.DOFade(1f, 0);
-        canSpawn = true;
     }
 
     void ComponentAdjustment(bool value)
@@ -84,8 +46,74 @@ public class SpawnSoldier : MonoBehaviour
             newSoldier.GetComponentsInChildren<Animator>()[0].enabled = value;
             newSoldier.GetComponentsInChildren<Animator>()[1].enabled = value;
             newSoldier.GetComponentsInChildren<Animator>()[2].enabled = value;
+            if(value == false)
+            {
+                foreach (MeshRenderer renderer in newSoldier.GetComponentsInChildren<MeshRenderer>())
+                {
+                    renderer.material = soldierGhostMaterial;
+                }
+                foreach (SkinnedMeshRenderer renderer in newSoldier.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    renderer.material = soldierGhostMaterial;
+                }
+            }
+            else
+            {
+                foreach (MeshRenderer renderer in newSoldier.GetComponentsInChildren<MeshRenderer>())
+                {
+                    renderer.material = soldierMaterial;
+                }
+                foreach (SkinnedMeshRenderer renderer in newSoldier.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    renderer.material = soldierMaterial;
+                }
+            }
+           
         }
         
 
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
+        {
+            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
+            mSoldierHandle = Addressables.InstantiateAsync("SoldiersAllie", transform.position, Quaternion.identity);
+            mSoldierHandle.Completed += OnSoldierInstantiated;
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if ( newSoldier != null && newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled == false)
+        {
+            RaycastAndMove();
+            newSoldier.GetComponentInChildren<SkinnedMeshRenderer>().material = soldierMaterial;
+        }
+        ComponentAdjustment(true);
+        canSpawn = true;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        //z= 10.70939, x= -0.2096049
+        if (newSoldier == mSoldierHandle.Result && newSoldier.GetComponentsInChildren<SoldiersAllie>()[0].enabled == false)
+        {
+
+            RaycastAndMove();
+        }
+    }
+    void RaycastAndMove()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit))
+        {
+            if (raycastHit.collider.CompareTag("PlayerField"))
+            {
+                newSoldier.transform.position = new Vector3(raycastHit.point.x, 1, raycastHit.point.z);
+            }
+
+        }
     }
 }

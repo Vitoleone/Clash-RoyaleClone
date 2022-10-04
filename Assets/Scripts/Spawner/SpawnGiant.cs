@@ -7,8 +7,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.AddressableAssets;
 
-public class SpawnGiant : MonoBehaviour
+public class SpawnGiant : MonoBehaviour,IPointerDownHandler,IPointerUpHandler,IDragHandler
 {
+    [SerializeField] GameObject deneme;
+
     public GameObject giant;
     public GameObject newgiant;
     bool canSpawn = true;
@@ -17,18 +19,7 @@ public class SpawnGiant : MonoBehaviour
     float energAmount = 4;
     [SerializeField]GameObject energyBar;
     private AsyncOperationHandle<GameObject> mGiantLoadingHandle;
-    private void OnMouseDown()
-    {
-        if(canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
-        {
-            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
 
-            mGiantLoadingHandle = Addressables.InstantiateAsync("GiantAllie", transform.position, Quaternion.identity);
-            mGiantLoadingHandle.Completed += OnGiantInstantiated; 
-            
-        }
-        
-    }
     private void OnGiantInstantiated(AsyncOperationHandle<GameObject> gameObject)
     {
         newgiant = gameObject.Result;
@@ -37,31 +28,38 @@ public class SpawnGiant : MonoBehaviour
         //newgiant.GetComponent<Renderer>().material.DOFade(0.3f, 0f);
         newgiant.GetComponent<NavMeshAgent>().enabled = false;
         newgiant.GetComponent<Animator>().enabled = false;
-        mZCoord = Camera.main.WorldToScreenPoint(newgiant.transform.position).z;
-        mOffset = newgiant.transform.position - GetMouseWorldPos();
+
+        RaycastAndMove();
         canSpawn = false;
     }
 
+    
     private Vector3 GetMouseWorldPos()
     {
         Vector3 mousePoint = Input.mousePosition;
         mousePoint.z = mZCoord;
         return Camera.main.ScreenToWorldPoint(mousePoint);
     }
-    private void OnMouseDrag()
+  
+  
+    public void OnPointerDown(PointerEventData eventData)
     {
-        //z= 10.70939, x= -0.2096049
-        if ( (GetMouseWorldPos() + mOffset).z <= -8f && newgiant.GetComponent<GiantAllie>().enabled == false)
+        if (canSpawn && energyBar.GetComponent<EnergyBar>().instance.currentEnergy >= energAmount)
         {
-            newgiant.transform.position = GetMouseWorldPos() + mOffset;
+            energyBar.GetComponent<EnergyBar>().instance.UseEnergy(energAmount);
+
+            mGiantLoadingHandle = Addressables.InstantiateAsync("GiantAllie", transform.position, Quaternion.identity);
+            mGiantLoadingHandle.Completed += OnGiantInstantiated;
+
+
         }
-        
     }
-    private void OnMouseUp()
+
+    public void OnPointerUp(PointerEventData eventData)
     {
-        if ((GetMouseWorldPos() + mOffset).z <= -8f && newgiant.GetComponent<GiantAllie>().enabled == false)
+        if ((newgiant.GetComponent<GiantAllie>().enabled == false))
         {
-            newgiant.transform.position = GetMouseWorldPos() + mOffset;
+            RaycastAndMove();
         }
         newgiant.GetComponent<GiantAllie>().enabled = true;
         newgiant.GetComponent<NavMeshAgent>().enabled = true;
@@ -70,4 +68,27 @@ public class SpawnGiant : MonoBehaviour
         canSpawn = true;
     }
 
+   
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Debug.Log(GetMouseWorldPos() + mOffset);
+        if ((newgiant.GetComponent<GiantAllie>().enabled == false))
+        {
+            RaycastAndMove();
+        }
+    }
+
+    void RaycastAndMove()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit))
+        {
+            if (raycastHit.collider.CompareTag("PlayerField"))
+            {
+                newgiant.transform.position = new Vector3(raycastHit.point.x, 1, raycastHit.point.z);
+            }
+
+        }
+    }
 }
