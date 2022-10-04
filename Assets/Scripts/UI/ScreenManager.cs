@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ScreenManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class ScreenManager : MonoBehaviour
     [SerializeField] GameObject allyCastle;
     [SerializeField] GameObject winScreen;
     [SerializeField] GameObject gameOverScreen;
+    [SerializeField] Text timerText;
+    float timer = 15f;
     Castle castleInstance;
     EnemyCastle enemyCastleInstance;
     
@@ -28,17 +31,38 @@ public class ScreenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(castleInstance.instance.health <= 0)
+        timer -= Time.deltaTime;
+        timerText.text = "Time Left: " + Mathf.FloorToInt(timer).ToString();
+        if(timer > 0)
         {
-            gameOverScreen.SetActive(true);
-            Time.timeScale = 0;
+            if (castleInstance.instance.health <= 0)
+            {
+                gameOverScreen.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else if (enemyCastleInstance.instance.health <= 0)
+            {
+                
+                winScreen.SetActive(true);
+                Time.timeScale = 0;
+            }
         }
-        else if(enemyCastleInstance.instance.health <= 0)
+        else
         {
-            winScreen.SetActive(true);
-            Time.timeScale = 0;
+            if(castleInstance.instance.health <= enemyCastleInstance.instance.health)
+            {
+                gameOverScreen.SetActive(true);
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Debug.Log("EnemyHealth = " + enemyCastleInstance.instance.health + " AllyHealth: " + castleInstance.instance.health);
+                winScreen.SetActive(true);
+                Time.timeScale = 0;
+            }
+
         }
+      
         
     }
     public void RestartGame()
