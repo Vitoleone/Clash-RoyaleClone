@@ -62,11 +62,7 @@ public class LoadingScene : MonoBehaviour
         fullLoadingBar.fillAmount = m_SceneHandle.GetDownloadStatus().Percent;
         if(bundle.bannerLoaded && bundle.assetsLoaded)
         {
-            
-            
             Addressables.LoadSceneAsync("DemoScene", LoadSceneMode.Single, true);
-            banner = Instantiate(bundle.banner);
-            banner.GetComponent<Banner>().GetBanner();// get ad
 
         }
         if (m_SceneHandle.IsDone && fullLoadingBar.fillAmount == 1)

@@ -11,11 +11,8 @@ public class Banner : MonoBehaviour
 
 
     public void Start()
-    {
-        // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize(initStatus => { bundle.bannerLoaded = true; });
+    {  
        RequestBanner();
-
     }
 
     private void RequestBanner()
@@ -40,11 +37,6 @@ public class Banner : MonoBehaviour
         // Load the banner with the request.
         this.bannerView.LoadAd(request);
 
-
-    }
-    public void GetBanner()
-    {
-        RequestBanner();
 
     }
     private void OnApplicationQuit()
