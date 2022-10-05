@@ -1,18 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class BundleManager : MonoBehaviour
+[CreateAssetMenu(fileName = "Scriptable Singleton", menuName = "Singleton/Scriptable Singleton")]
+public class BundleManager : SingletonScriptableObject<BundleManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] public bool bannerLoaded = false;
+    [SerializeField] public bool assetsLoaded = false;
+    [SerializeField] public GameObject banner;
+}
+
+
+
+
+public abstract class SingletonScriptableObject<T> : ScriptableObject where T : ScriptableObject
+{
+
+    static T instance;
+    public static T Instance
     {
-        
+        get
+        {
+            if (instance == null)
+            {
+                instance = Resources.Load<T>(typeof(T).ToString());
+                (instance as SingletonScriptableObject<T>).OnInitialize();
+            }
+            return instance;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // Optional overridable method for initializing the instance.
+    protected virtual void OnInitialize() { }
+
 }

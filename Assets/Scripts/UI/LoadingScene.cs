@@ -18,6 +18,10 @@ public class LoadingScene : MonoBehaviour
     Image fullLoadingBar;
     float waitTime = 2.5f;
     float timer = 0.1f;
+
+    //singletonScriptable
+    public BundleManager bundle;
+    public GameObject banner;
     private void GetNewScene()
     {
         m_SceneHandle = Addressables.DownloadDependenciesAsync("DemoScene");
@@ -26,17 +30,20 @@ public class LoadingScene : MonoBehaviour
     private void OnDisable()
     {
         m_SceneHandle.Completed -= OnSceneLoaded;
-        Addressables.UnloadSceneAsync(m_SceneHandle);
+       
     }
     private void OnSceneLoaded(AsyncOperationHandle obj)
     {
         if(obj.Status == AsyncOperationStatus.Succeeded)
         {
-            Addressables.LoadSceneAsync("DemoScene", LoadSceneMode.Single, true);
+            bundle.assetsLoaded = true;
+            
         }
     }
     private void Awake()
     {
+        
+
         Addressables.ClearDependencyCacheAsync("DemoScene");//Clearing cache for downloading screen
 
         m_SceneHandle = Addressables.DownloadDependenciesAsync("DemoScene");
@@ -53,12 +60,24 @@ public class LoadingScene : MonoBehaviour
     {
         LoadingText.text = m_SceneHandle.GetDownloadStatus().DownloadedBytes / 1000000 + " / " + m_SceneHandle.GetDownloadStatus().TotalBytes / 1000000 + " MB ";
         fullLoadingBar.fillAmount = m_SceneHandle.GetDownloadStatus().Percent;
+        if(bundle.bannerLoaded && bundle.assetsLoaded)
+        {
+            
+            
+            Addressables.LoadSceneAsync("DemoScene", LoadSceneMode.Single, true);
+            banner = Instantiate(bundle.banner);
+            banner.GetComponent<Banner>().GetBanner();// get ad
+
+        }
         if (m_SceneHandle.IsDone && fullLoadingBar.fillAmount == 1)
         {
             GetNewScene();
         }
     }
-    
-   
+
+    private void OnApplicationQuit()
+    {
+        bundle.assetsLoaded = false;
+    }
 
 }
