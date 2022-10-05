@@ -2,19 +2,19 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using GoogleMobileAds.Api;
-
+using UnityEngine.AddressableAssets;
 
 public class Banner : MonoBehaviour
 {
     private BannerView bannerView;
+    public BundleManager bundle;
 
-    //[SerializeField] public SingletonScriptable singletonScriptable;
 
     public void Start()
     {
         // Initialize the Google Mobile Ads SDK.
-        MobileAds.Initialize(initStatus => { });
-        RequestBanner();
+        MobileAds.Initialize(initStatus => { bundle.bannerLoaded = true; });
+       RequestBanner();
 
     }
 
@@ -46,5 +46,9 @@ public class Banner : MonoBehaviour
     {
         RequestBanner();
 
+    }
+    private void OnApplicationQuit()
+    {
+        bundle.bannerLoaded = false;
     }
 }
