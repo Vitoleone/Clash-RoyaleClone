@@ -33,7 +33,7 @@ MonoBehaviour:
     m_Address: GiantAllie
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 9fc0d4010bbf28b4594072e72b8655ab
+  - m_GUID: 67a06994dedf4b94196c994b55bc22b6
     m_Address: DemoScene
     m_ReadOnly: 0
     m_SerializedLabels: []
