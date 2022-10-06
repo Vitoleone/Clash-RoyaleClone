@@ -8,7 +8,7 @@ public class BundleManager : SingletonScriptableObject<BundleManager>
 {
     [SerializeField] public bool bannerLoaded = false;
     [SerializeField] public bool assetsLoaded = false;
-    [SerializeField] public GameObject banner;
+   
 }
 
 

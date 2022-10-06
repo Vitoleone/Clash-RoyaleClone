@@ -17,7 +17,7 @@ public class EnergyBar : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(currentEnergy >= 0 && currentEnergy <= 10)
         {

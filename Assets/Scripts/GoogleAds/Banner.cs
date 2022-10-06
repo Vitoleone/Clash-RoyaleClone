@@ -11,8 +11,22 @@ public class Banner : MonoBehaviour
 
 
     public void Start()
-    {  
-       RequestBanner();
+    {
+        DontDestroyOnLoad(this);
+        MobileAds.Initialize(initStatus => { });
+        RequestBanner();
+    }
+    private void Update()
+    {
+        if(SceneManager.GetActiveScene().name == "LoadingScene")
+        {
+            bannerView.Hide();
+        }
+        else
+        {
+            bannerView.Show();
+        }
+        
     }
 
     private void RequestBanner()
@@ -34,10 +48,20 @@ public class Banner : MonoBehaviour
         // Create an empty ad request.
         AdRequest request = new AdRequest.Builder().Build();
 
+#if UNITY_EDITOR
+        bannerView.OnAdLoaded += OnAdsLoaded;
+#endif
+
         // Load the banner with the request.
-        this.bannerView.LoadAd(request);
+        bannerView.LoadAd(request);
 
+        bannerView.OnAdLoaded += OnAdsLoaded;
+    }
 
+    private void OnAdsLoaded(object sender, EventArgs e)
+    {
+        
+        bundle.bannerLoaded = true;
     }
     private void OnApplicationQuit()
     {

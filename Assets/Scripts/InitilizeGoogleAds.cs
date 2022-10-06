@@ -8,7 +8,7 @@ public class InitilizeGoogleAds : MonoBehaviour
     [SerializeField]BundleManager bundle;
     void Start()
     {
-        MobileAds.Initialize(initStatus => { bundle.bannerLoaded = true; });
+        MobileAds.Initialize(initStatus => { });
     }
 
     

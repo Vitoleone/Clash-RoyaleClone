@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] List<GameObject> enemies;
     void Start()
     {
-        InvokeRepeating("SpawnRandomEnemy", 2,2f);
+        InvokeRepeating("SpawnRandomEnemy", 4,4f);
     }
     private void Update()
     {

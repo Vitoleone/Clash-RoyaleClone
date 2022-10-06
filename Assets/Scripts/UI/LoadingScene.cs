@@ -44,7 +44,7 @@ public class LoadingScene : MonoBehaviour
     {
         
 
-        Addressables.ClearDependencyCacheAsync("DemoScene");//Clearing cache for downloading screen
+        //Addressables.ClearDependencyCacheAsync("DemoScene");//Clearing cache for downloading screen
 
         m_SceneHandle = Addressables.DownloadDependenciesAsync("DemoScene");
         Time.timeScale = 1f;

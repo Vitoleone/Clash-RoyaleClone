@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bannerLoaded: 0
   assetsLoaded: 0
-  banner: {fileID: 5261622752693372704, guid: 835717b2fe2278c479f2cea1a63dfa96, type: 3}
