@@ -9,6 +9,8 @@ public class Castle : MonoBehaviour
 {
     public float health = 3000;
     float attackRate = 1.25f;
+    public bool getHit = false;
+    public float getHitTimer = 1f;
     public Castle instance;
     Tweener ShootTween;
     [SerializeField] GameObject canonBall;
@@ -20,6 +22,8 @@ public class Castle : MonoBehaviour
     private void Update()
     {
         attackRate -= Time.deltaTime;
+        getHitTimer -= Time.deltaTime;
+
         if(health <= 0)
         {
             GetDestroyed();
@@ -30,6 +34,16 @@ public class Castle : MonoBehaviour
     }
     public void GetHit(float damage)
     {
+        if (getHitTimer >= 0)
+        {
+            getHit = true;
+        }
+        else
+        {
+            getHit = false;
+            getHitTimer = 1f;
+        }
+        
         health -= damage;
         Instantiate(getHitParticle, transform.position + Vector3.up*1.5f, Quaternion.identity);
         Debug.Log(health);
