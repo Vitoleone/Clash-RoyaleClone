@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Scriptable Singleton
   m_EditorClassIdentifier: 
   bannerLoaded: 0
-  assetsLoaded: 0
+  assetsLoaded: 1
